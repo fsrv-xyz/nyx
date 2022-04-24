@@ -18,10 +18,17 @@
       }
     },
     {
-      "name": "defective shell check",
-      "check": "shell",
+      "name": "ok process check",
+      "check": "process",
       "parameter": {
-        "command": "sleep 0.01"
+        "pidfile": "/var/run/hdiejectd.pid"
+      }
+    },
+    {
+      "name": "failing process check",
+      "check": "process",
+      "parameter": {
+        "pidfile": "/var/run/diskarbitrationd.pid"
       }
     }
   ]
