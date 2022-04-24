@@ -1,0 +1,28 @@
+{
+  "version": "1",
+  "checks": [
+    {
+      "name": "generic true check",
+      "check": "shell",
+      "help": "blub",
+      "parameter": {
+        "command": "true"
+      }
+    },
+    {
+      "name": "generic false check",
+      "check": "shell",
+      "help": "ensure bla is started",
+      "parameter": {
+        "command": "false"
+      }
+    },
+    {
+      "name": "defective shell check",
+      "check": "shell",
+      "parameter": {
+        "command": "sleep 0.01"
+      }
+    }
+  ]
+}
