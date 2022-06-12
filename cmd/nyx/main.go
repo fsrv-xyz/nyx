@@ -53,11 +53,13 @@ func main() {
 
 func runCheck(config checkConfiguration) check.GenericCheck {
 	checkFactory, ok := check.RegistryInstance.Checks[config.Check]
-	checkInstance := checkFactory()
 
 	if !ok {
-		return check.GenericCheck{Error: fmt.Errorf("%+q not implemented\n", config.Check)}
+		return check.GenericCheck{Error: fmt.Errorf("%+q not implemented", config.Check), State: check.StateUnable}
 	}
+
+	checkInstance := checkFactory()
+
 	for key, value := range config.Parameter {
 		checkInstance.SetParameter(key, value)
 	}

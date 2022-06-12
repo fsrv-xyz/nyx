@@ -30,6 +30,27 @@
       "parameter": {
         "pidfile": "/var/run/diskarbitrationd.pid"
       }
+    },
+    {
+      "name": "tls external check",
+      "check": "tls_external",
+      "parameter": {
+        "external": "google.com:443"
+      }
+    },
+    {
+      "name": "tls external check with failure",
+      "check": "tls_external",
+      "parameter": {
+        "url": "expired.badssl.com:443"
+      }
+    },
+    {
+      "name": "tls external check with expiry",
+      "check": "tls_external",
+      "parameter": {
+        "url": "www.hetzner.com:443"
+      }
     }
   ]
 }
