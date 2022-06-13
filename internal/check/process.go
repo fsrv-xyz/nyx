@@ -1,7 +1,9 @@
 package check
 
 import (
+	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -20,11 +22,13 @@ type ProcessCheck struct {
 
 func (c *ProcessCheck) Run() {
 	// validate config parameters
-	if err := c.ValidateParameters([]string{"pidfile"}); err != nil {
+	if err := c.ValidateParameters([]string{"pidfile", "match"}); err != nil {
 		return
 	}
-	pidFile := c.GenericCheck.Parameters["pidfile"]
-	pidFileContent, err := os.ReadFile(pidFile)
+	parameterPidFile := c.GenericCheck.Parameters["pidfile"]
+	parameterMatch := c.GenericCheck.Parameters["match"]
+
+	pidFileContent, err := os.ReadFile(parameterPidFile)
 	if err != nil {
 		c.GenericCheck.State = StateFailed
 		c.GenericCheck.Error = err
@@ -49,10 +53,24 @@ func (c *ProcessCheck) Run() {
 	}
 
 	// try to get process name; fail if not possible
-	_, gatherProcessNameError := processWithPid.Name()
+	processName, gatherProcessNameError := processWithPid.Name()
 	if gatherProcessNameError != nil {
 		c.GenericCheck.State = StateFailed
 		c.GenericCheck.Error = gatherProcessNameError
+		return
+	}
+
+	matcher, matchCompileError := regexp.Compile(parameterMatch)
+	if matchCompileError != nil {
+		c.GenericCheck.State = StateUnable
+		c.GenericCheck.Error = matchCompileError
+		return
+	}
+
+	// compare process name to match parameter
+	if !matcher.MatchString(processName) {
+		c.GenericCheck.State = StateWarning
+		c.GenericCheck.Error = fmt.Errorf("process name %+q does not match %+q", processName, matcher)
 		return
 	}
 	c.GenericCheck.State = StateOK
