@@ -4,7 +4,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"syscall"
 
 	"github.com/shirou/gopsutil/v3/process"
 )
@@ -49,11 +48,11 @@ func (c *ProcessCheck) Run() {
 		return
 	}
 
-	// try sending SIG-NULL signal
-	processSignalError := processWithPid.SendSignal(syscall.Signal(0))
-	if processSignalError != nil {
+	// try to get process name; fail if not possible
+	_, gatherProcessNameError := processWithPid.Name()
+	if gatherProcessNameError != nil {
 		c.GenericCheck.State = StateFailed
-		c.GenericCheck.Error = processSignalError
+		c.GenericCheck.Error = gatherProcessNameError
 		return
 	}
 	c.GenericCheck.State = StateOK
