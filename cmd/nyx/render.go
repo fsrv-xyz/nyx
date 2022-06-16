@@ -2,16 +2,27 @@ package main
 
 import (
 	"github.com/fatih/color"
-	"github.com/rodaine/table"
+	"github.com/olekukonko/tablewriter"
 	"golang.fsrv.services/nyx/internal/check"
+	"os"
 )
 
 func renderOutput(checks []check.GenericCheck) {
-	headerFmt := color.New(color.FgWhite, color.Italic, color.Underline).SprintfFunc()
-	columnFmt := color.New(color.FgHiWhite).SprintfFunc()
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Name", "Result", "Error", "Help"})
+	table.SetAutoWrapText(false)
+	table.SetAutoFormatHeaders(true)
+	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.SetCenterSeparator("")
+	table.SetColumnSeparator("")
+	table.SetRowSeparator("")
+	table.SetHeaderLine(false)
+	table.SetBorder(true)
+	table.SetTablePadding("\t") // pad with tabs
+	table.SetNoWhiteSpace(false)
 
-	tbl := table.New("Name", "Result", "Error", "Help")
-	tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt).WithPadding(5)
+	table.SetHeaderColor(tablewriter.Colors{tablewriter.Bold}, tablewriter.Colors{tablewriter.Bold}, tablewriter.Colors{tablewriter.Bold}, tablewriter.Colors{tablewriter.Bold})
 
 	for _, result := range checks {
 		var resultColor color.Attribute
@@ -30,11 +41,12 @@ func renderOutput(checks []check.GenericCheck) {
 		switch result.Error {
 		case nil:
 			resultError = "-"
+			resultHelp = "-"
 		default:
 			resultError = result.Error.Error()
 			resultHelp = result.Help
 		}
-		tbl.AddRow(result.Name, color.New(resultColor, color.Bold).Sprint(result.State), resultError, resultHelp)
+		table.Append([]string{result.Name, color.New(resultColor, color.Bold).Sprint(result.State), resultError, resultHelp})
 	}
-	tbl.Print()
+	table.Render()
 }

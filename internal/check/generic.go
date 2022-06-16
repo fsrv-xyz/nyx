@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"sync"
+	"time"
 )
 
 type State string
@@ -19,6 +20,9 @@ type Check interface {
 	SetHelp(text string)
 	SetName(name string)
 
+	StartTiming()
+	FinishTiming()
+
 	Logger() *log.Logger
 }
 
@@ -28,6 +32,9 @@ type GenericCheck struct {
 	State      State
 	Error      error
 	Parameters map[string]string
+
+	Duration  time.Duration
+	startTime time.Time
 }
 
 func (generic *GenericCheck) SetName(name string) {
@@ -36,6 +43,14 @@ func (generic *GenericCheck) SetName(name string) {
 
 func (generic *GenericCheck) SetHelp(text string) {
 	generic.Help = text
+}
+
+func (generic *GenericCheck) StartTiming() {
+	generic.startTime = time.Now()
+}
+
+func (generic *GenericCheck) FinishTiming() {
+	generic.Duration = time.Since(generic.startTime)
 }
 
 func (generic *GenericCheck) SetParameter(key, value string) {

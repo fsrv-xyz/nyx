@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"os"
-
 	"golang.fsrv.services/nyx/internal/check"
+	"golang.fsrv.services/nyx/internal/util"
 	"golang.fsrv.services/version"
+	"os"
 )
 
 type application struct {
@@ -44,18 +44,36 @@ func main() {
 		panic(jsonDecodeError)
 	}
 
-	var overview []check.GenericCheck
-	for _, che := range config.Checks {
-		overview = append(overview, runCheck(che))
-	}
-	renderOutput(overview)
+	m := runChecks(config)
+	p := util.SortByCheckName(m)
+	renderOutput(p)
 }
 
-func runCheck(config checkConfiguration) check.GenericCheck {
+func runChecks(config configuration) []check.GenericCheck {
+	var overview []check.GenericCheck
+	blaC := make(chan check.GenericCheck)
+
+	go func() {
+		for checkIndex := range config.Checks {
+			go runCheck(config.Checks[checkIndex], blaC)
+		}
+	}()
+
+	for result := range blaC {
+		overview = append(overview, result)
+		if len(overview) == len(config.Checks) {
+			close(blaC)
+		}
+	}
+	return overview
+}
+
+func runCheck(config checkConfiguration, output chan check.GenericCheck) {
 	checkFactory, ok := check.RegistryInstance.Checks[config.Check]
 
 	if !ok {
-		return check.GenericCheck{Error: fmt.Errorf("%+q not implemented", config.Check), State: check.StateUnable}
+		output <- check.GenericCheck{Error: fmt.Errorf("%+q not implemented", config.Check), State: check.StateUnable}
+		return
 	}
 
 	checkInstance := checkFactory()
@@ -65,7 +83,9 @@ func runCheck(config checkConfiguration) check.GenericCheck {
 	}
 	checkInstance.SetName(config.Name)
 	checkInstance.SetHelp(config.Help)
+	checkInstance.StartTiming()
 	checkInstance.Run()
+	checkInstance.FinishTiming()
 
-	return checkInstance.Export()
+	output <- checkInstance.Export()
 }
