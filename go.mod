@@ -5,7 +5,6 @@ go 1.18
 require (
 	github.com/fatih/color v1.13.0
 	github.com/olekukonko/tablewriter v0.0.5
-	github.com/rodaine/table v1.0.1
 	github.com/shirou/gopsutil/v3 v3.22.3
 	golang.fsrv.services/version v0.0.1
 )

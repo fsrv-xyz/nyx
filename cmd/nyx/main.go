@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"os"
+
 	"golang.fsrv.services/nyx/internal/check"
 	"golang.fsrv.services/nyx/internal/util"
 	"golang.fsrv.services/version"
-	"os"
 )
 
 type application struct {

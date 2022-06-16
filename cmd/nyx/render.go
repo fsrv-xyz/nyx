@@ -1,10 +1,11 @@
 package main
 
 import (
+	"os"
+
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"golang.fsrv.services/nyx/internal/check"
-	"os"
 )
 
 func renderOutput(checks []check.GenericCheck) {

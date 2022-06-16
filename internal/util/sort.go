@@ -1,8 +1,9 @@
 package util
 
 import (
-	"golang.fsrv.services/nyx/internal/check"
 	"sort"
+
+	"golang.fsrv.services/nyx/internal/check"
 )
 
 func SortByCheckName(checks []check.GenericCheck) []check.GenericCheck {
