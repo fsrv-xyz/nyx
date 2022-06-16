@@ -7,16 +7,16 @@ import (
 )
 
 func init() {
-	RegistryInstance.Register("tls_external", func() Check {
-		return &TLSExternalCheck{}
+	RegistryInstance.Register("webssl", func() Check {
+		return &WebSSLCheck{}
 	})
 }
 
-type TLSExternalCheck struct {
+type WebSSLCheck struct {
 	GenericCheck
 }
 
-func (c *TLSExternalCheck) Run() {
+func (c *WebSSLCheck) Run() {
 	// validate config parameters
 	if err := c.ValidateParameters([]string{"url"}); err != nil {
 		return

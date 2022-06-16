@@ -21,33 +21,35 @@
       "name": "ok process check",
       "check": "process",
       "parameter": {
-        "pidfile": "/var/run/hdiejectd.pid"
+        "pidfile": "/var/run/hdiejectd.pid",
+        "match": "hdiejectd"
       }
     },
     {
       "name": "failing process check",
       "check": "process",
       "parameter": {
-        "pidfile": "/var/run/diskarbitrationd.pid"
+        "pidfile": "/var/run/diskarbitrationd.pid",
+        "match": "bla"
       }
     },
     {
       "name": "tls external check",
-      "check": "tls_external",
+      "check": "webssl",
       "parameter": {
-        "external": "google.com:443"
+        "url": "google.com:443"
       }
     },
     {
       "name": "tls external check with failure",
-      "check": "tls_external",
+      "check": "webssl",
       "parameter": {
         "url": "expired.badssl.com:443"
       }
     },
     {
       "name": "tls external check with expiry",
-      "check": "tls_external",
+      "check": "webssl",
       "parameter": {
         "url": "www.hetzner.com:443"
       }
