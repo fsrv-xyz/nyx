@@ -48,6 +48,29 @@
       }
     },
     {
+      "name": "port check - down",
+      "check": "port",
+      "parameter": {
+        "port": "8080"
+      }
+    },
+    {
+      "name": "port check - up",
+      "check": "port",
+      "parameter": {
+        "port": "6942"
+      }
+    },
+    {
+      "name": "port check - external",
+      "check": "port",
+      "parameter": {
+        "timeout": "1s",
+        "port": "80",
+        "address": "mirror.fsrv.services"
+      }
+    },
+    {
       "name": "tls external check with expiry",
       "check": "webssl",
       "parameter": {
