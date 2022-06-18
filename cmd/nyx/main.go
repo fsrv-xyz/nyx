@@ -50,12 +50,9 @@ func main() {
 	// decode configuration file to struct; error and exit if decoding fails
 	config := configuration{}
 	jsonDecodeError := json.NewDecoder(file).Decode(&config)
-	if errors.Is(err, jsonDecodeError) {
+	if jsonDecodeError != nil {
 		fmt.Printf("fail to decode config file %+q\n%+q\n", instance.configFilePath, jsonDecodeError)
 		os.Exit(1)
-	}
-	if jsonDecodeError != nil {
-		panic(jsonDecodeError)
 	}
 
 	m := runChecks(config)
