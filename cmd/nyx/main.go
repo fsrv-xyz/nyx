@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -35,6 +36,13 @@ func init() {
 
 func main() {
 	file, err := os.Open(instance.configFilePath)
+
+	// fail if config file is not found
+	if errors.Is(err, os.ErrNotExist) {
+		fmt.Printf("config file %+q not found\n", instance.configFilePath)
+		os.Exit(1)
+	}
+	// fail on other errors
 	if err != nil {
 		panic(err)
 	}
