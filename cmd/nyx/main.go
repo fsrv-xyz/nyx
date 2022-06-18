@@ -47,8 +47,13 @@ func main() {
 		panic(err)
 	}
 
+	// decode configuration file to struct; error and exit if decoding fails
 	config := configuration{}
 	jsonDecodeError := json.NewDecoder(file).Decode(&config)
+	if errors.Is(err, jsonDecodeError) {
+		fmt.Printf("fail to decode config file %+q\n", instance.configFilePath)
+		os.Exit(1)
+	}
 	if jsonDecodeError != nil {
 		panic(jsonDecodeError)
 	}
