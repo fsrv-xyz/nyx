@@ -10,7 +10,7 @@ import (
 
 func renderOutput(checks []check.GenericCheck) {
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Name", "Result", "Error", "Help"})
+	table.SetHeader([]string{"Name", "State", "Error", "Help"})
 	table.SetAutoWrapText(false)
 	table.SetAutoFormatHeaders(true)
 	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
@@ -23,7 +23,12 @@ func renderOutput(checks []check.GenericCheck) {
 	table.SetTablePadding("\t") // pad with tabs
 	table.SetNoWhiteSpace(false)
 
-	table.SetHeaderColor(tablewriter.Colors{tablewriter.Bold}, tablewriter.Colors{tablewriter.Bold}, tablewriter.Colors{tablewriter.Bold}, tablewriter.Colors{tablewriter.Bold})
+	table.SetHeaderColor(
+		tablewriter.Colors{tablewriter.Bold},
+		tablewriter.Colors{tablewriter.Bold},
+		tablewriter.Colors{tablewriter.Bold},
+		tablewriter.Colors{tablewriter.Bold},
+	)
 
 	for _, result := range checks {
 		var resultColor color.Attribute
