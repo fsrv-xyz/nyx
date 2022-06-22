@@ -6,8 +6,9 @@ type configuration struct {
 }
 
 type checkConfiguration struct {
-	Name      string            `json:"name"`
-	Check     string            `json:"check"`
-	Help      string            `json:"help"`
-	Parameter map[string]string `json:"parameter"`
+	Name       string            `json:"name"`
+	Check      string            `json:"check"`
+	Help       string            `json:"help"`
+	Identifier string            `json:"identifier"`
+	Parameter  map[string]string `json:"parameter"`
 }
