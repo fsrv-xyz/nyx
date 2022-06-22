@@ -10,6 +10,13 @@ import (
 
 type State string
 
+const (
+	StateOK      State = "ok"
+	StateFailed  State = "failed"
+	StateWarning State = "warning"
+	StateUnable  State = "unable to run"
+)
+
 type Check interface {
 	Run()
 	Export() GenericCheck
@@ -19,6 +26,7 @@ type Check interface {
 	SetParameter(key, value string)
 	SetHelp(text string)
 	SetName(name string)
+	SetIdentifier(identifier string)
 
 	StartTiming()
 	FinishTiming()
@@ -31,6 +39,7 @@ type GenericCheck struct {
 	Help       string
 	State      State
 	Error      error
+	Identifier string
 	Parameters map[string]string
 
 	Duration  time.Duration
@@ -39,6 +48,9 @@ type GenericCheck struct {
 
 func (generic *GenericCheck) SetName(name string) {
 	generic.Name = name
+}
+func (generic *GenericCheck) SetIdentifier(identifier string) {
+	generic.Identifier = identifier
 }
 
 func (generic *GenericCheck) SetHelp(text string) {
@@ -97,10 +109,3 @@ func (r *Registry) Register(name string, factory func() Check) {
 }
 
 var RegistryInstance Registry
-
-const (
-	StateOK      State = "ok"
-	StateFailed  State = "failed"
-	StateWarning State = "warning"
-	StateUnable  State = "unable to run"
-)

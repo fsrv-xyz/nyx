@@ -3,7 +3,7 @@ package util
 import (
 	"sort"
 
-	"golang.fsrv.services/nyx/internal/check"
+	"github.com/fsrv-xyz/nyx/internal/check"
 )
 
 func SortByCheckName(checks []check.GenericCheck) []check.GenericCheck {

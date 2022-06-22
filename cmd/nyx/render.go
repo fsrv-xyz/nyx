@@ -4,8 +4,8 @@ import (
 	"os"
 
 	"github.com/fatih/color"
+	"github.com/fsrv-xyz/nyx/internal/check"
 	"github.com/olekukonko/tablewriter"
-	"golang.fsrv.services/nyx/internal/check"
 )
 
 func renderOutput(checks []check.GenericCheck) {
@@ -32,8 +32,8 @@ func renderOutput(checks []check.GenericCheck) {
 
 	for _, result := range checks {
 		var resultColor color.Attribute
-		var resultError string
-		var resultHelp string
+		var resultError = "-"
+		var resultHelp = "-"
 
 		switch result.State {
 		case check.StateOK:
@@ -44,13 +44,13 @@ func renderOutput(checks []check.GenericCheck) {
 			resultColor = color.FgRed
 		}
 
-		switch result.Error {
-		case nil:
-			resultError = "-"
-			resultHelp = "-"
-		default:
+		if result.Error != nil {
 			resultError = result.Error.Error()
 			resultHelp = result.Help
+		}
+
+		if resultHelp == "" {
+			resultHelp = "-"
 		}
 		table.Append([]string{result.Name, color.New(resultColor, color.Bold).Sprint(result.State), resultError, resultHelp})
 	}

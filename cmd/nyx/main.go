@@ -7,13 +7,14 @@ import (
 	"fmt"
 	"os"
 
-	"golang.fsrv.services/nyx/internal/check"
-	"golang.fsrv.services/nyx/internal/util"
-	"golang.fsrv.services/version"
+	"github.com/fsrv-xyz/nyx/internal/check"
+	"github.com/fsrv-xyz/nyx/internal/util"
+	"github.com/fsrv-xyz/version"
 )
 
 type application struct {
-	configFilePath string
+	configFilePath  string
+	checkIdentifier string
 }
 
 // instantiate application state variable
@@ -23,8 +24,9 @@ func init() {
 	var printVersion bool
 
 	// parse input parameters
-	flag.StringVar(&instance.configFilePath, "config.file", "./nyx.json", "path to config file")
 	flag.BoolVar(&printVersion, "version", false, "run as server and export metrics via http")
+	flag.StringVar(&instance.checkIdentifier, "identifier", "all", "name of check to return")
+	flag.StringVar(&instance.configFilePath, "config.file", "./nyx.json", "path to config file")
 	flag.Parse()
 
 	// version handling
@@ -55,24 +57,49 @@ func main() {
 		os.Exit(1)
 	}
 
-	m := runChecks(config)
-	p := util.SortByCheckName(m)
-	renderOutput(p)
+	// filter checks by identifier
+	checks, checkSelectionError := config.filterCheckByIdentifier(instance.checkIdentifier)
+	if checkSelectionError != nil {
+		fmt.Println(checkSelectionError)
+		os.Exit(127)
+	}
+
+	results := runChecks(checks)
+	renderOutput(util.SortByCheckName(results))
 }
 
-func runChecks(config configuration) []check.GenericCheck {
+// filter checks by identifier; return all checks if identifier is "all" or "any"
+func (config *configuration) filterCheckByIdentifier(identifier string) ([]checkConfiguration, error) {
+	// return all checks if identifier is "all"
+	if identifier == "all" || identifier == "any" {
+		return config.Checks, nil
+	}
+
+	var checks []checkConfiguration
+	for configCheckIndex := range config.Checks {
+		if config.Checks[configCheckIndex].Identifier == identifier {
+			checks = append(checks, config.Checks[configCheckIndex])
+		}
+	}
+	if len(checks) == 0 {
+		return nil, fmt.Errorf("no check found with identifier %+q", identifier)
+	}
+	return checks, nil
+}
+
+func runChecks(checks []checkConfiguration) []check.GenericCheck {
 	var overview []check.GenericCheck
 	blaC := make(chan check.GenericCheck)
 
 	go func() {
-		for checkIndex := range config.Checks {
-			go runCheck(config.Checks[checkIndex], blaC)
+		for checkIndex := range checks {
+			go runCheck(checks[checkIndex], blaC)
 		}
 	}()
 
 	for result := range blaC {
 		overview = append(overview, result)
-		if len(overview) == len(config.Checks) {
+		if len(overview) == len(checks) {
 			close(blaC)
 		}
 	}
@@ -94,6 +121,7 @@ func runCheck(config checkConfiguration, output chan check.GenericCheck) {
 	}
 	checkInstance.SetName(config.Name)
 	checkInstance.SetHelp(config.Help)
+	checkInstance.SetIdentifier(config.Identifier)
 	checkInstance.StartTiming()
 	checkInstance.Run()
 	checkInstance.FinishTiming()
