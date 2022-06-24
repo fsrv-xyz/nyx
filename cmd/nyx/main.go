@@ -26,13 +26,18 @@ func init() {
 	// parse input parameters
 	flag.BoolVar(&printVersion, "version", false, "run as server and export metrics via http")
 	flag.StringVar(&instance.checkIdentifier, "identifier", "all", "name of check to return")
-	flag.StringVar(&instance.configFilePath, "config.file", "./nyx.json", "path to config file")
+	flag.StringVar(&instance.configFilePath, "config.file", "./nyx.json", "path to config file; alternatively, use environment variable NYX_CONFIG")
 	flag.Parse()
 
 	// version handling
 	if printVersion {
 		fmt.Println(version.Print("nyx"))
 		os.Exit(0)
+	}
+
+	configFileEnv := os.Getenv("NYX_CONFIG")
+	if configFileEnv != "" {
+		instance.configFilePath = configFileEnv
 	}
 }
 
