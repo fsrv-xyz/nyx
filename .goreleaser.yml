@@ -8,5 +8,6 @@ builds:
       - amd64
       - arm64
     dir: .
+    main: ./cmd/nyx/
     env:
       - CGO_ENABLED=0
