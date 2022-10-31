@@ -4,8 +4,9 @@ import (
 	"os"
 
 	"github.com/fatih/color"
-	"github.com/fsrv-xyz/nyx/internal/check"
 	"github.com/olekukonko/tablewriter"
+
+	"github.com/fsrv-xyz/nyx/internal/check"
 )
 
 func renderOutput(checks []check.GenericCheck) {

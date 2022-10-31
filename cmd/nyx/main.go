@@ -7,9 +7,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fsrv-xyz/version"
+
 	"github.com/fsrv-xyz/nyx/internal/check"
 	"github.com/fsrv-xyz/nyx/internal/util"
-	"github.com/fsrv-xyz/version"
 )
 
 type application struct {
