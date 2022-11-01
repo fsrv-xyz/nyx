@@ -1,0 +1,14 @@
+Source: nyx
+Priority: optional
+Maintainer: Florian Bauer <florian@fsrv.xyz>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.1
+Homepage: https://github.com/fsrv-xyz/nyx
+Vcs-Browser: https://github.com/fsrv-xyz/nyx
+Vcs-Git: https://github.com/fsrv-xyz/nyx.git
+Rules-Requires-Root: no
+
+Package: nyx
+Architecture: %ARCHITECTURE%
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A command line tool for checking the status of multiple resource types.
