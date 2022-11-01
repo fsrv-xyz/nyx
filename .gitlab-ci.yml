@@ -56,3 +56,27 @@ trigger dimp:
     DIMP_PROJECT_ID: $CI_PROJECT_ID
   only:
     - schedules
+
+debian packagebuild:
+  stage: release
+  image: registry.fsrv.services/fsrvcorp/container/debian-build:latest
+  variables:
+    CGO_ENABLED: 0
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+  parallel:
+    matrix:
+      - GOOS: linux
+        GOARCH: [amd64, arm64]
+  before_script:
+    - apt update && apt install -y binutils-aarch64-linux-gnu
+    - go build -o nyx -ldflags="-s -w" -trimpath ./cmd/nyx
+  script:
+    - export VERSION="$(echo $CI_COMMIT_TAG | sed 's/^v//')"
+    - sed -i "s/%VERSION%/$VERSION/g" debian/changelog
+    - sed -i "s/%ARCHITECTURE%/$GOARCH/g" debian/control
+    - mkdir package && mv debian package
+    - (cd package && dpkg-buildpackage -rfakeroot -b -uc -us --host-arch $GOARCH)
+  artifacts:
+    paths:
+      - "*.deb"
