@@ -98,4 +98,4 @@ packagecloud upload:
     before_script:
       - gem install package_cloud
     script:
-      - package_cloud push fsrv/testing/$DISTRO/$VERSION nyx_*.deb
+      - package_cloud push fsrv/production/$DISTRO/$VERSION nyx_*.deb
