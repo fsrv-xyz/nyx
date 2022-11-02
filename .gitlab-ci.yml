@@ -98,4 +98,4 @@ packagecloud upload:
     before_script:
       - gem install package_cloud
     script:
-      - package_cloud --config=$PACKAGECLOUD_CONFIG push fsrv/testing/$DISTRO/$VERSION *.deb
+      - package_cloud push --config=$PACKAGECLOUD_CONFIG fsrv/testing/$DISTRO/$VERSION *.deb
