@@ -42,7 +42,7 @@ jobs:
         goarch: [amd64, arm64]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - run: go build -o nyx -ldflags="-s -w" -trimpath ./cmd/nyx
       - run: cp example/nyx.json .
       - run: tar -czf nyx_${{ needs.create_release.outputs.version }}_${{ matrix.goos }}_${{ matrix.goarch }}.tar.gz nyx LICENSE nyx.json
@@ -72,7 +72,7 @@ jobs:
         goarch: [amd64, arm64]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - run: apt update && apt install -y binutils-aarch64-linux-gnu
       - run: go build -o nyx -ldflags="-s -w" -trimpath ./cmd/nyx
       - name: replace template variables
