@@ -13,7 +13,7 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
-	github.com/lufia/plan9stats v0.0.0-20220913051719-115f729f3c8c // indirect
+	github.com/lufia/plan9stats v0.0.0-20230110061619-bbe2e5e100de // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
