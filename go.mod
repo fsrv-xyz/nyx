@@ -6,7 +6,7 @@ require (
 	github.com/fatih/color v1.14.1
 	github.com/fsrv-xyz/version v0.0.1
 	github.com/olekukonko/tablewriter v0.0.5
-	github.com/shirou/gopsutil/v3 v3.23.1
+	github.com/shirou/gopsutil/v3 v3.22.12
 	github.com/stretchr/testify v1.8.1
 )
 
