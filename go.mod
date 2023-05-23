@@ -7,7 +7,7 @@ require (
 	github.com/fsrv-xyz/version v0.0.1
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/shirou/gopsutil/v3 v3.23.4
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.3
 )
 
 require (
