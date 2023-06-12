@@ -17,7 +17,7 @@ include:
 
 debian packagebuild:
   stage: build
-  image: registry.fsrv.services/fsrvcorp/container/debian-build:latest
+  image: registry.fsrv.services/fsrvcorp/container/debian-build:latest@sha256:381bcc0fe5d30c4189c36cf03105580cf2b06313179f90310cf7e9e00425dbd8
   variables:
     CGO_ENABLED: 0
   rules:
@@ -45,7 +45,7 @@ packagecloud upload:
       - debian packagebuild
     needs:
       - debian packagebuild
-    image: ruby
+    image: ruby@sha256:5efd846bccfafcabada226808406275e92269889467d571e897afc104e8c76c9
     rules:
       - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
     parallel:
