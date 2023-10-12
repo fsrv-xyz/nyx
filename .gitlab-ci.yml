@@ -45,7 +45,7 @@ packagecloud upload:
       - debian packagebuild
     needs:
       - debian packagebuild
-    image: ruby@sha256:0520a5494639036a5fdc3a7328f7378d841c41a4347da57ffe51259cf1c9de06
+    image: ruby@sha256:3c8e6b401193d832b2a361b391e2d6e7b6bfe77be76dde0ce7b58315cafd5d20
     rules:
       - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
     parallel:
