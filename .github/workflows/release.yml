@@ -30,7 +30,7 @@ jobs:
   go_build:
     runs-on: ubuntu-latest
     container:
-      image: registry.fsrv.services/fsrvcorp/container/debian-build:latest@sha256:75c5d7ad372b798f1e2bb0172b84c9d186a5027805b157147caaa9eb8dd74608
+      image: registry.fsrv.services/fsrvcorp/container/debian-build:latest@sha256:33d16f636ee12780b16c057ecd4776fc0688ba39bdefe6946e49bfcd42d0c566
     needs: [create_release]
     env:
       CGO_ENABLED: 0
@@ -59,7 +59,7 @@ jobs:
 
   deb_packages:
     container:
-      image: registry.fsrv.services/fsrvcorp/container/debian-build:latest@sha256:75c5d7ad372b798f1e2bb0172b84c9d186a5027805b157147caaa9eb8dd74608
+      image: registry.fsrv.services/fsrvcorp/container/debian-build:latest@sha256:33d16f636ee12780b16c057ecd4776fc0688ba39bdefe6946e49bfcd42d0c566
     runs-on: ubuntu-latest
     needs: [create_release]
     env:
