@@ -3,7 +3,7 @@ module github.com/fsrv-xyz/nyx
 go 1.19
 
 require (
-	github.com/fatih/color v1.16.0
+	github.com/fatih/color v1.17.0
 	github.com/fsrv-xyz/version v0.0.1
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/shirou/gopsutil/v4 v4.24.5
