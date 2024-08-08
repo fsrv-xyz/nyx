@@ -17,7 +17,7 @@ include:
 
 debian packagebuild:
   stage: build
-  image: registry.fsrv.services/fsrvcorp/container/debian-build:latest@sha256:500eb575685f84d4e07c794d418b31a69e5b6f16dfd9c3ba9790f3499a17fa7d
+  image: registry.fsrv.services/fsrvcorp/container/debian-build:latest@sha256:a37ce50ce41577868421fd9f6b2cdcfed24b01f3b23eb0d10814a5cc77bb8fae
   variables:
     CGO_ENABLED: 0
   rules:
