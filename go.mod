@@ -8,7 +8,7 @@ require (
 	github.com/fatih/color v1.18.0
 	github.com/fsrv-xyz/version v0.0.1
 	github.com/olekukonko/tablewriter v0.0.5
-	github.com/shirou/gopsutil/v4 v4.25.3
+	github.com/shirou/gopsutil/v4 v4.25.4
 	github.com/stretchr/testify v1.10.0
 )
 
