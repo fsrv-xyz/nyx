@@ -7,7 +7,7 @@ toolchain go1.24.3
 require (
 	github.com/fatih/color v1.18.0
 	github.com/fsrv-xyz/version v0.0.1
-	github.com/olekukonko/tablewriter v0.0.5
+	github.com/olekukonko/tablewriter v1.0.7
 	github.com/shirou/gopsutil/v4 v4.25.5
 	github.com/stretchr/testify v1.10.0
 )
@@ -19,7 +19,9 @@ require (
 	github.com/lufia/plan9stats v0.0.0-20230110061619-bbe2e5e100de // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/mattn/go-runewidth v0.0.16 // indirect
+	github.com/olekukonko/errors v0.0.0-20250405072817-4e6d85265da6 // indirect
+	github.com/olekukonko/ll v0.0.8 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
